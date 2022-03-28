@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
 from pathlib import Path
-
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,7 +35,7 @@ class Book(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     source = models.CharField(max_length=1000)
-    path = models.FilePathField(path=BASE_DIR / "remote_library/projectMaterials/books", match=None, recursive=False, max_length=100)
+    path = models.FilePathField(path="C:/Users/valeriya.nikiforova/Documents/UCA/Senior/FYP/remote_library_web/remote-library/public/projectMaterials/books", match=None, recursive=False, max_length=100)
     url = models.URLField(null=True)
     upload_date_time = models.DateTimeField(default=now, editable=False)
     last_visited_date_time = models.DateTimeField(default=now)
@@ -57,7 +57,7 @@ class Video(models.Model):
     description = models.TextField(null=True, blank=True)
     source = models.CharField(max_length=1000)
     url = models.URLField(null=True)
-    path = models.FilePathField(path=BASE_DIR / "remote_library/projectMaterials/videos", match=None, recursive=False, max_length=100)
+    path = models.FilePathField(path="C:/Users/valeriya.nikiforova/Documents/UCA/Senior/FYP/remote_library_web/remote-library/public/projectMaterials/videos", match=None, recursive=False, max_length=100)
     upload_date_time = models.DateTimeField(default=now, editable=False)
     last_visited_date_time = models.DateTimeField(default=now)
     publish_date = models.PositiveIntegerField(null=True, blank=True)
@@ -74,7 +74,7 @@ class Audio(models.Model):
     transcript = models.TextField(null=True, blank=True)
     source = models.CharField(max_length=1000)
     url = models.URLField(null=True)
-    path = models.FilePathField(path=BASE_DIR / "remote_library/projectMaterials/audios", match=None, recursive=False, max_length=100)
+    path = models.FilePathField(path="C:/Users/valeriya.nikiforova/Documents/UCA/Senior/FYP/remote_library_web/remote-library/public/projectMaterials/videos", match=None, recursive=False, max_length=100)
     upload_date_time = models.DateTimeField(default=now, editable=False)
     last_visited_date_time = models.DateTimeField(default=now)
     publish_date = models.PositiveIntegerField(null=True, blank=True)
@@ -116,3 +116,49 @@ class GovernmentalResource(models.Model):
     def __str__(self):
         return self.source
 
+
+class CustomUserManager(BaseUserManager):
+    def _create_user(self, email, password, **extra_fields):
+        if not email:
+            raise ValueError("Email field is required!")
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser mast have is_staff=True.")
+
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser mast have is_superuser=True.")
+
+        return self._create_user(email, password, **extra_fields)
+
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    USERNAME_FIELD = "email"
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
+
+
+class Jwt(models.Model):
+    user = models.ForeignKey(CustomUser, related_name="login_user", on_delete=models.CASCADE)
+    access = models.TextField()
+    refresh = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 from .models import \
     Book,\
     Video, \
@@ -70,5 +71,18 @@ class BookSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "description", "source", "path",
                   "url", "upload_date_time", "last_visited_date_time",
                   "publish_year", "views_counter", "book_category", "authors",)
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+
+class RegisterSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+
+
 
 

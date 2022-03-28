@@ -9,7 +9,9 @@ from remote_library.models import \
     GovernmentalResourceCategory,\
     VideoCategory,\
     AudioCategory,\
-    BookCategory
+    BookCategory,\
+    CustomUser, \
+    Jwt
 
 
 admin.site.register(Book)
@@ -21,3 +23,5 @@ admin.site.register(GovernmentalResourceCategory)
 admin.site.register(BookCategory)
 admin.site.register(AudioCategory)
 admin.site.register(VideoCategory)
+admin.site.register(CustomUser)
+admin.site.register(Jwt)

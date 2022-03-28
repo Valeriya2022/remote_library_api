@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework.authtoken import views
 from .views import \
     BookAPIView, \
     AudioAPIView,\
@@ -17,7 +18,9 @@ from .views import \
     GovernmentalResourceCategoryAPIView,\
     GovernmentalResourceCategoryDetailView,\
     AuthorAPIView,\
-    AuthorDetailView
+    AuthorDetailView,\
+    LoginView,\
+    RegisterView
 
 urlpatterns = [
     path('books', BookAPIView.as_view(), name="books"),
@@ -38,4 +41,6 @@ urlpatterns = [
     path('governmental-resource-category/<int:pk>', GovernmentalResourceCategoryDetailView.as_view(), name="governmental resource category"),
     path('authors', AuthorAPIView.as_view(), name="authors"),
     path('authors/<int:pk>', AuthorDetailView.as_view(), name="authors"),
+    path('login', LoginView.as_view()),
+    path('register', RegisterView.as_view())
 ]
