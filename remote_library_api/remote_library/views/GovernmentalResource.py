@@ -5,6 +5,19 @@ from rest_framework import status, authentication
 from rest_framework.views import APIView
 from django.utils.timezone import now
 
+class GovResourcesPopularView(APIView):
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        governmentalResource = GovernmentalResource.objects.all()
+        if len(governmentalResource) > 5:
+            popular_resources = sorted(governmentalResource, key=lambda x: x.views_counter, reverse=True)
+            serializer = GovernmentalResourceSerializer(popular_resources[0:5], many=True)
+            return Response(serializer.data)
+        else:
+            serializer = GovernmentalResourceSerializer(governmentalResource, many=True)
+            return Response(serializer.data)
 
 class GovernmentalResourceAPIView(APIView):
     def get(self, request, format=None):

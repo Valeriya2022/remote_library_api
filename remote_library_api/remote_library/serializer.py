@@ -4,19 +4,17 @@ from rest_framework import serializers
 from .models import \
     Book,\
     Video, \
-    Audio,\
     Author,\
     GovernmentalResource,\
     GovernmentalResourceCategory,\
     VideoCategory,\
-    AudioCategory,\
     BookCategory
 
-
-class AudioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Audio
-        fields = '__all__'
+#
+# class AudioSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Audio
+#         fields = '__all__'
 
 
 
@@ -32,10 +30,10 @@ class BookCategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AudioCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AudioCategory
-        fields = '__all__'
+# class AudioCategorySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = AudioCategory
+#         fields = '__all__'
 
 
 class VideoCategorySerializer(serializers.ModelSerializer):
@@ -70,7 +68,7 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ("id", "name", "description", "source", "path",
                   "url", "upload_date_time", "last_visited_date_time",
-                  "publish_year", "views_counter", "book_category", "authors",)
+                  "publish_year", "views_counter", "book_category", "authors", "saved_by")
 
 
 class LoginSerializer(serializers.Serializer):

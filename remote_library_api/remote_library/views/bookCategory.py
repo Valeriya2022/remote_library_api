@@ -1,5 +1,5 @@
-from ..models import Book, Audio, Video, BookCategory
-from ..serializer import BookSerializer, AudioSerializer, VideoSerializer, BookCategorySerializer
+from ..models import Book, Video, BookCategory
+from ..serializer import BookSerializer, VideoSerializer, BookCategorySerializer
 from rest_framework.response import Response
 from rest_framework import status, authentication
 from rest_framework.views import APIView

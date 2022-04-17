@@ -1,10 +1,23 @@
-from ..models import Book, Audio, Video, BookCategory
-from ..serializer import BookSerializer, AudioSerializer, VideoSerializer, BookCategorySerializer
+from ..models import Book, Video, BookCategory
+from ..serializer import BookSerializer, VideoSerializer, BookCategorySerializer
 from rest_framework.response import Response
 from rest_framework import status, authentication
 from rest_framework.views import APIView
 from django.utils.timezone import now
 
+class VideoPopularView(APIView):
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        videos = Video.objects.all()
+        if len(videos) > 5:
+            popular_videos = sorted(videos, key=lambda x: x.views_counter, reverse=True)
+            serializer = BookSerializer(popular_videos[0:5], many=True)
+            return Response(serializer.data)
+        else:
+            serializer = BookSerializer(videos, many=True)
+            return Response(serializer.data)
 
 class VideoDetailView(APIView):
     def updateViewsCounter(self, request, pk):
@@ -22,7 +35,7 @@ class VideoDetailView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, pk, format=None):
-        allowed_updates = ["name", "author", "description", "source", "url", "path", "publish_date", "video_category"]
+        allowed_updates = ["name", "author", "description", "source", "url", "path", "publish_date", "video_category", "saved_by"]
         for elem in request.data:
             if not (elem in allowed_updates):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
