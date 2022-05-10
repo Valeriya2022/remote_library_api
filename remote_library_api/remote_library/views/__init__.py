@@ -5,4 +5,5 @@ from .videoCategory import *
 from .GovernmentalResource import *
 from .GovernmentalResourceCategory import *
 from .author import *
-from .authentication import LoginView, RegisterView
+from .authentication import LoginView, RegisterView, RefreshView
+from .SearchedMaterial import *

@@ -9,7 +9,7 @@ from django.utils.timezone import now
 class BookCategoryAPIView(APIView):
     def get(self, request, format=None):
         """
-        Return a list of all users.
+        Return a list of all book categories.
         """
         bookCategories = BookCategory.objects.all()
         serializer = BookCategorySerializer(bookCategories, many=True)
@@ -21,7 +21,7 @@ class BookCategoryAPIView(APIView):
         error_response = {"bookCategories": []}
         serializers = []
         request_data = request.data
-        required_fields = ["category", "description"]
+        required_fields = ["category"]
 
         for bookCategory in request_data["data"]:
             serializer = BookCategorySerializer(data=bookCategory)
@@ -52,7 +52,7 @@ class BookCategoryDetailView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, pk, format=None):
-        allowed_updates = ["category", "description"]
+        allowed_updates = ["category"]
         for elem in request.data:
             if not (elem in allowed_updates):
                 return Response(status=status.HTTP_400_BAD_REQUEST)

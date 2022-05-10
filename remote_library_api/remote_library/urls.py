@@ -19,7 +19,10 @@ from .views import \
     RegisterView,\
     BookPopularView,\
     VideoPopularView,\
-    GovResourcesPopularView
+    GovResourcesPopularView,\
+    RefreshView,\
+    SearchedMaterialAPIView,\
+    SearchedMaterialDetailView
 
 urlpatterns = [
     path('books', BookAPIView.as_view(), name="books"),
@@ -35,10 +38,13 @@ urlpatterns = [
     path('governmental-resource', GovernmentalResourceAPIView.as_view(), name="governmental resource"),
     path('governmental-resource-popular', GovResourcesPopularView.as_view(), name="governmental resource popular"),
     path('governmental-resource/<int:pk>', GovernmentalResourceDetailView.as_view(), name="governmental resource"),
-    path('governmental-resource-category', GovernmentalResourceCategoryAPIView.as_view(), name="governmental resource category"),
+    path('governmental-resource-category', GovernmentalResourceCategoryAPIView.as_view(), name="governmental-resource-category"),
     path('governmental-resource-category/<int:pk>', GovernmentalResourceCategoryDetailView.as_view(), name="governmental resource category"),
     path('authors', AuthorAPIView.as_view(), name="authors"),
     path('authors/<int:pk>', AuthorDetailView.as_view(), name="authors"),
     path('login', LoginView.as_view()),
-    path('register', RegisterView.as_view())
+    path('register', RegisterView.as_view()),
+    path('refresh', RefreshView.as_view()),
+    path('searched-materials', SearchedMaterialAPIView.as_view(), name="searched materials"),
+    path('searched-materials/<int:pk>', SearchedMaterialDetailView.as_view(), name="searched material")
 ]

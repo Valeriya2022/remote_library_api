@@ -8,7 +8,8 @@ from .models import \
     GovernmentalResource,\
     GovernmentalResourceCategory,\
     VideoCategory,\
-    BookCategory
+    BookCategory,\
+    SearchedMaterial
 
 #
 # class AudioSerializer(serializers.ModelSerializer):
@@ -80,6 +81,15 @@ class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
 
+
+class RefreshSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+
+class SearchedMaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SearchedMaterial
+        fields = '__all__'
 
 
 

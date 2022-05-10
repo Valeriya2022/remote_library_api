@@ -9,7 +9,8 @@ from remote_library.models import \
     VideoCategory,\
     BookCategory,\
     CustomUser, \
-    Jwt
+    Jwt, \
+    SearchedMaterial
 
 
 admin.site.register(Book)
@@ -21,3 +22,4 @@ admin.site.register(BookCategory)
 admin.site.register(VideoCategory)
 admin.site.register(CustomUser)
 admin.site.register(Jwt)
+admin.site.register(SearchedMaterial)

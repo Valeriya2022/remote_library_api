@@ -13,7 +13,7 @@ class AuthorDetailView(APIView):
         return Response(serializer.data)
 
     def patch(self, request, pk, format=None):
-        allowed_updates = ["first_name", "middle_name", "last_name", "description", "books"]
+        allowed_updates = ["first_name", "last_name", "description", "books"]
         for elem in request.data:
             if not (elem in allowed_updates):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -54,12 +54,11 @@ class AuthorAPIView(APIView):
         error_response = {"authors": []}
         serializers = []
         request_data = request.data
-        required_fields = ["first_name", "middle_name", "last_name", "description", "books"]
+        required_fields = ["first_name", "last_name", "description", "books"]
 
         for author in request_data["data"]:
             serializer = AuthorSerializer(data=author)
-
-            if list(author.keys()) == required_fields and serializer.is_valid(raise_exception=False):
+            if list(author.keys()) == required_fields and serializer.is_valid(raise_exception=True):
 
                 serializers.append(serializer)
                 elem = {"author": serializer.initial_data}

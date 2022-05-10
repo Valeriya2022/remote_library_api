@@ -41,20 +41,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     objects = CustomUserManager()
 
-    def __str__(self):
-        return self.email
 
-# class AudioCategory(models.Model):
-#     category = models.CharField(max_length=500)
-#     description = models.TextField(blank=True, null=True)
-#
-#     def __str__(self):
-#         return self.category
+    # class AudioCategory(models.Model):
+    #     category = models.CharField(max_length=500)
+    #     description = models.TextField(blank=True, null=True)
+    #
+    #     def __str__(self):
+    #         return self.category
 
 
 class BookCategory(models.Model):
     category = models.CharField(max_length=500)
-    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.category
@@ -62,7 +59,6 @@ class BookCategory(models.Model):
 
 class VideoCategory(models.Model):
     category = models.CharField(max_length=500)
-    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.category
@@ -72,7 +68,7 @@ class Book(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     source = models.CharField(max_length=1000)
-    path = models.FilePathField(path="C:/Users/valeriya.nikiforova/Documents/UCA/Senior/FYP/remote_library_web/remote-library/public/projectMaterials/books", match=None, recursive=False, max_length=100)
+    path = models.URLField(null=False, blank=False)
     url = models.URLField(null=True)
     upload_date_time = models.DateTimeField(default=now, editable=False)
     last_visited_date_time = models.DateTimeField(default=now)
@@ -86,7 +82,7 @@ class Book(models.Model):
         author_names = ""
         # for author in authors:
         #     author_names += author.first_name + " " + author.last_name
-        return self.name + "by" + str(authors)
+        return self.name
 
 
 class Video(models.Model):
@@ -95,7 +91,7 @@ class Video(models.Model):
     description = models.TextField(null=True, blank=True)
     source = models.CharField(max_length=1000)
     url = models.URLField(null=True)
-    path = models.FilePathField(path="C:/Users/valeriya.nikiforova/Documents/UCA/Senior/FYP/remote_library_web/remote-library/public/projectMaterials/videos", match=None, recursive=False, max_length=100)
+    path = models.URLField(null=False, blank=False)
     upload_date_time = models.DateTimeField(default=now, editable=False)
     last_visited_date_time = models.DateTimeField(default=now)
     publish_date = models.PositiveIntegerField(null=True, blank=True)
@@ -127,7 +123,6 @@ class Video(models.Model):
 
 class Author(models.Model):
     first_name = models.CharField(max_length=255)
-    middle_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     books = models.ManyToManyField(Book, related_name="authors", blank=True)
@@ -138,7 +133,6 @@ class Author(models.Model):
 
 class GovernmentalResourceCategory(models.Model):
     category = models.CharField(max_length=500)
-    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.category
@@ -148,20 +142,25 @@ class GovernmentalResource(models.Model):
     source = models.CharField(max_length=1000)
     url = models.URLField(null=True)
     update_date = models.DateField(auto_now=True)
-    path = models.FilePathField(path="C:/Users/valeriya.nikiforova/Documents/UCA/Senior/FYP/remote_library_web/remote-library/public/projectMaterials/governmental_resources",
-    max_length=200, allow_folders=True)
+    path = models.URLField(null=False, blank=False)
     category = models.ForeignKey(GovernmentalResourceCategory, on_delete=models.CASCADE)
     views_counter = models.PositiveIntegerField(default=0)
-    saved_by = models.ManyToManyField(CustomUser, related_name="users_gov", blank=True)
 
     def __str__(self):
         return self.source
 
 class Jwt(models.Model):
-    user = models.ForeignKey(CustomUser, related_name="login_user", on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, related_name="login_user", on_delete=models.CASCADE)
     access = models.TextField()
     refresh = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class SearchedMaterial(models.Model):
+    query = models.CharField(max_length=1000)
+    category = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(default=0, null=False)
 
 
