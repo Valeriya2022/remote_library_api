@@ -22,7 +22,14 @@ from .views import \
     GovResourcesPopularView,\
     RefreshView,\
     SearchedMaterialAPIView,\
-    SearchedMaterialDetailView
+    SearchedMaterialDetailView,\
+    LogOut,\
+    SaveBook,\
+    SaveVideo,\
+    SavedVideosView,\
+    SavedBooksView,\
+    VerifySavedBook,\
+    VerifySavedVideo
 
 urlpatterns = [
     path('books', BookAPIView.as_view(), name="books"),
@@ -46,5 +53,12 @@ urlpatterns = [
     path('register', RegisterView.as_view()),
     path('refresh', RefreshView.as_view()),
     path('searched-materials', SearchedMaterialAPIView.as_view(), name="searched materials"),
-    path('searched-materials/<int:pk>', SearchedMaterialDetailView.as_view(), name="searched material")
+    path('searched-materials/<int:pk>', SearchedMaterialDetailView.as_view(), name="searched material"),
+    path('logout', LogOut.as_view(), name="Log out"),
+    path('save-book', SaveBook.as_view(), name="Save Book"),
+    path('save-video', SaveVideo.as_view(), name="Save Video"),
+    path('get-saved-videos', SavedVideosView.as_view(), name="Saved videos view"),
+    path('get-saved-books', SavedBooksView.as_view(), name="Saved books view"),
+    path('verify-saved-book', VerifySavedBook.as_view(), name="Verify saved book"),
+    path('verify-saved-video', VerifySavedVideo.as_view(), name="Verify saved video")
 ]

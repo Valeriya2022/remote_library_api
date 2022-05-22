@@ -86,6 +86,15 @@ class RefreshSerializer(serializers.Serializer):
     refresh = serializers.CharField()
 
 
+class SaveBookSerializer(serializers.Serializer):
+    book_id = serializers.IntegerField()
+    refresh = serializers.CharField()
+
+class SaveVideoSerializer(serializers.Serializer):
+    video_id = serializers.IntegerField()
+    refresh = serializers.CharField()
+
+
 class SearchedMaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = SearchedMaterial
