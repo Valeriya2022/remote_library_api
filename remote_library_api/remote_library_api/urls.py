@@ -19,6 +19,7 @@ from django.urls import path, include
 
 from remote_library_api import settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('remote_library.urls')),
