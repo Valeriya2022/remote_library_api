@@ -1,3 +1,5 @@
+import django
+
 from ..models import Book, Video, BookCategory
 from ..serializer import BookSerializer, VideoSerializer, BookCategorySerializer
 from rest_framework.response import Response
@@ -24,6 +26,8 @@ class VideoDetailView(APIView):
         video = Video.objects.get(pk=pk)
         views = video.views_counter + 1
         request_data = {"views_counter": views}
+        time_now = now()
+        request_data["last_visited_date_time"] = time_now
         serializer = VideoSerializer(video, data=request_data, partial=True)
         if serializer.is_valid(raise_exception=False):
             serializer.save()

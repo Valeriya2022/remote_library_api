@@ -46,8 +46,17 @@ class SearchedMaterialAPIView(APIView):
 
 
 class SearchedMaterialDetailView(APIView):
-    def delete(self, request, pk, format=None):
-        searchedMaterial = SearchedMaterial.objects.get(pk=pk)
+    def patch(self, request, pk, format=None):
+        allowed_updates = ["status"]
+        for elem in request.data:
+            if not (elem in allowed_updates):
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        request_data = request.data
+        object = SearchedMaterial.objects.get(pk=pk)
+        serializer = SearchedMaterialSerializer(object, data=request_data, partial=True)
 
-        searchedMaterial.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({"searchedMaterial": serializer.data}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

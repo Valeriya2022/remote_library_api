@@ -1,3 +1,5 @@
+import django
+
 from ..models import BookCategory, GovernmentalResource
 from ..serializer import BookCategorySerializer, GovernmentalResourceSerializer
 from rest_framework.response import Response
@@ -77,6 +79,7 @@ class GovernmentalResourceDetailView(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         request_data = request.data
         object = GovernmentalResource.objects.get(pk=pk)
+        request_data["update_date"] = django.utils.timezone.now().date()
         serializer = GovernmentalResourceSerializer(object, data=request_data, partial=True)
 
         if serializer.is_valid(raise_exception=True):

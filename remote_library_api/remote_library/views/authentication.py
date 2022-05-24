@@ -200,7 +200,7 @@ class SavedBooksView(APIView):
         data = []
         for book in books:
             print(book.book_id)
-            book_object = Video.objects.get(pk=book.book_id)
+            book_object = Book.objects.get(pk=book.book_id)
             book_serializer = BookSerializer(book_object)
             data.append(book_serializer.data)
         return Response(data)

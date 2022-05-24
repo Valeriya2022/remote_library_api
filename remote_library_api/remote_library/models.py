@@ -1,3 +1,4 @@
+import django
 from django.db import models
 from django.utils.timezone import now
 from pathlib import Path
@@ -65,13 +66,14 @@ class VideoCategory(models.Model):
 
 
 class Book(models.Model):
+    time_now = now()
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     source = models.CharField(max_length=1000)
     path = models.URLField(null=False, blank=False)
     url = models.URLField(null=True)
     upload_date_time = models.DateTimeField(default=now, editable=False)
-    last_visited_date_time = models.DateTimeField(default=now)
+    last_visited_date_time = models.DateTimeField(default=time_now)
     publish_year = models.PositiveIntegerField(null=True, blank=True)
     views_counter = models.PositiveIntegerField(default=0)
     book_category = models.ForeignKey(BookCategory, null=True, on_delete=models.CASCADE)
@@ -86,6 +88,7 @@ class Book(models.Model):
 
 
 class Video(models.Model):
+    time_now = now()
     name = models.CharField(max_length=255)
     author = models.CharField(max_length=1000, blank=True, null=True)
     description = models.TextField(null=True, blank=True)
@@ -93,7 +96,7 @@ class Video(models.Model):
     url = models.URLField(null=True)
     path = models.URLField(null=False, blank=False)
     upload_date_time = models.DateTimeField(default=now, editable=False)
-    last_visited_date_time = models.DateTimeField(default=now)
+    last_visited_date_time = models.DateTimeField(default=time_now)
     publish_date = models.PositiveIntegerField(null=True, blank=True)
     views_counter = models.PositiveIntegerField(default=0)
     video_category = models.ForeignKey(VideoCategory, null=True, on_delete=models.CASCADE)
@@ -139,9 +142,10 @@ class GovernmentalResourceCategory(models.Model):
 
 
 class GovernmentalResource(models.Model):
+    now = now()
     source = models.CharField(max_length=1000)
     url = models.URLField(null=True)
-    update_date = models.DateField(auto_now=True)
+    update_date = models.DateField(default=now)
     path = models.URLField(null=False, blank=False)
     category = models.ForeignKey(GovernmentalResourceCategory, on_delete=models.CASCADE)
     views_counter = models.PositiveIntegerField(default=0)
